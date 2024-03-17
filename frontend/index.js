@@ -1,12 +1,11 @@
-const newsForm = document.getElementById("news-form");
+const newsForm = $("#news-form");
 
-const newsContainer = document.getElementById("news-container");
+const newsContainer = $("#news-container");
 
 const getAllNews = async () => {
     const response = await axios.get(
         `http://localhost/news-project/backend/api.php`
     );
-    console.log(response.data.new);
     displayNews(response.data.new);
 };
 
@@ -24,9 +23,9 @@ const renderedCards = (title, description, image_url) => {
 
 const displayNews = (data) => {
     newsContainer.innerHTML = "";
-    data.forEach((newsItem) => {
+    $.each(data, function(index, newsItem) {
         const cardHTML = renderedCards(newsItem.title, newsItem.description, newsItem.image_url);
-        newsContainer.innerHTML += cardHTML;
+        newsContainer.append(cardHTML);
     });
 };
 
@@ -47,7 +46,7 @@ const addNews = async () => {
     }
 };
 
-newsForm.addEventListener("submit", (e) => {
+newsForm.submit((e) => {
     e.preventDefault();
     addNews();
 });
